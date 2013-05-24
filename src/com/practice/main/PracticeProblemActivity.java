@@ -42,30 +42,6 @@ public class PracticeProblemActivity extends Activity implements OnClickListener
 			break;
 			
 		case R.id.web_button:
-			
-			 String url = "http://www.xmlfiles.com/examples/cd_catalog.xml" ;// Random site with XML data
-
-			    String[] tags = new String[] { "ARTIST" };
-			    String code = "";
-			    String parsed = "";
-
-			    try
-			    {
-			        WebActivity mGrabber;
-					code = mGrabber.grabSource(url);
-			        parsed = mGrabber.parseTags(code, tags);
-			    }
-			    catch (Exception e)
-			    {
-			        e.printStackTrace();
-			        return;
-			    }
-
-			    TextView source = (TextView) findViewById(R.id.source);
-			    source.setText(code); 
-
-			    TextView result = (TextView) findViewById(R.id.result);
-			    result.setText(parsed);
 			System.out.println("Web page viewing");
 			Intent intent = new Intent(PracticeProblemActivity.this,WebActivity.class );
 			startActivity(intent);

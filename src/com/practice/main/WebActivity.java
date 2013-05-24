@@ -1,131 +1,76 @@
 package com.practice.main;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import android.sax.Element;
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.widget.TextView;
+ 
 
-public class WebActivity 
+public class WebActivity extends Activity
 {
-	private HttpGet mRequest;
-    private HttpClient mClient;
-    private BufferedReader mReader;
-
-    private DocumentBuilder mBuilder;
-
-    private StringBuffer mBuffer;
-    private String mNewLine;
-
-
-
-    public void SrcGrabber()
-    {
-        mRequest = new HttpGet();
-        mClient = new DefaultHttpClient();
-        mReader = null;
-
-        try
+      
+   
+    TextView source;
+    TextView result;
+ 
+   
+        protected void onCreate(Bundle savedInstanceState)
         {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringComments(true);
-            mBuilder = factory.newDocumentBuilder();
-        }
-        catch (ParserConfigurationException e)
-        {
-            e.printStackTrace();
-        }
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.web_activity);
+               
+                    String url = "http://google.com/"; // Random site with XML data
+ 
+                    String[] tags = new String[] { "ARTIST" };
+                    String code = "";
+                    String parsed = "";
+                      try
+                    {
+                    	/*SrcGrabber mGrabber = new SrcGrabber();
+                        code = mGrabber.grabSource(url);
+                        System.out.println("source code =" +code);
+                        parsed = mGrabber.parseTags(code, tags);*/
+                    	StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-        mBuffer = new StringBuffer(2000);
-        mNewLine = System.getProperty("line.separator");
-    }
+                    	StrictMode.setThreadPolicy(policy); 
+                    	
+                    	
+                    	HttpClient httpclient = new DefaultHttpClient(); // Create HTTP Client
+                    	HttpGet httpget = new HttpGet("http://www.google.com/"); // Set the action you want to do
+                    	HttpResponse response = httpclient.execute(httpget); // Executeit
+                    	HttpEntity entity = response.getEntity(); 
+                    	InputStream is = entity.getContent(); // Create an InputStream with the response
+                    	BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                    	StringBuilder sb = new StringBuilder();
+                    	String line = null;
+                    	while ((line = reader.readLine()) != null) // Read line by line
+                    	    sb.append(line + "\n");
 
-    public String grabSource(String url) throws ClientProtocolException, IOException, URISyntaxException
-    {
-        mBuffer.setLength(0);
+                    	code = sb.toString(); // Result is here
 
-        try
-        {
-            mRequest.setURI(new URI(url));
-            HttpResponse response = mClient.execute(mRequest);
-
-            mReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-
-            String line = "";
-            while ((line = mReader.readLine()) != null)
-            {
-                mBuffer.append(line);
-                mBuffer.append(mNewLine);
-            }
-        }
-        finally
-        {
-            closeReader();
-        }
-
-        return mBuffer.toString();
-    }
-
-    public String parseTags(String code, String[] tags) throws IOException, SAXException
-    {
-        mBuffer.setLength(0);
-
-        Document doc = mBuilder.parse(new ByteArrayInputStream(code.getBytes()));
-        Element el = (Element) doc.getDocumentElement();
-
-        for (String tag : tags)
-            parseTags(((Document) el).getElementsByTagName(tag));
-        
-            return mBuffer.toString();
-    }
-
-    protected void parseTag(Node node)
-    {
-        if (node.getNodeType() == Node.TEXT_NODE)
-        {
-            mBuffer.append(node.getNodeValue());
-            mBuffer.append(mNewLine);
-        }
-    }
-
-    private void closeReader()
-    {
-        if (mReader == null)
-            return;
-
-        try
-        {
-            mReader.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void parseTags(NodeList nodes)
-    {
-        int length = nodes.getLength();
-
-        for (int i = 0; i < length; ++i)
-            parseTag(nodes.item(i).getFirstChild());
-    }
-	
+                    	is.close();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        return;
+                    }
+ 
+                    TextView source = (TextView) findViewById(R.id.source);
+                    source.setText(code);
+ 
+                   /* TextView result = (TextView) findViewById(R.id.result);
+                    result.setText(parsed);*/
+                   
+        }      
 }

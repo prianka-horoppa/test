@@ -43,5 +43,9 @@
             </intent-filter>
         </activity>
     </application>
+    
+    <!--  Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
 
 </manifest>
