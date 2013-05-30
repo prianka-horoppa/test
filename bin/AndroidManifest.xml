@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jsobreader"
+    package="com.prianka.homeapplication"
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="10" />
+    <uses-sdk android:minSdkVersion="8" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
         <activity
-            android:name="com.example.jsobreader.ListViewActivity"
+            android:name="com.prianka.homeapplication.MenuPageActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +19,38 @@
             </intent-filter>
         </activity>
         
-        <activity
-            android:name="com.example.jsobreader.DescriptionActivity"
+          <activity
+            android:name=".RegistrationActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.NORMAL" />
+            </intent-filter>
+        </activity>
+        
+          <activity
+            android:name=".ListShowActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.NORMAL" />
+            </intent-filter>
+        </activity>
+        
+           <activity
+            android:name=".DescriptionActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.NORMAL" />
+            </intent-filter>
+        </activity>
+        
+           <activity
+            android:name=".HomePageActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

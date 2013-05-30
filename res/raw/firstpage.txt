@@ -1,0 +1,22 @@
+{
+   "data":[
+
+            
+            {
+            "entry": Home
+            
+            },
+            
+            {
+            "entry": List
+             
+            },
+
+            {
+            "entry": Registration
+            
+            }
+
+          ]
+
+}
